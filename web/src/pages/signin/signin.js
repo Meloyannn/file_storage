@@ -1,44 +1,44 @@
-import React,{Component} from "react"
+import React, { Component } from "react"
 import Http from '../../components/httpService'
 import Auth from "../../components/authService"
-class Signin extends Component{
-    constructor(props){
+class Signin extends Component {
+    constructor(props) {
         super(props)
         this.state = {
-            username:"",
-            password:""
+            email: "",
+            password: ""
         }
         this.handleInput = this.handleInput.bind(this)
     }
-    handleInput(event){
+    handleInput(event) {
         this.setState(
             {
-                [event.target.name]:event.target.value
+                [event.target.name]: event.target.value
             })
     }
-    render(){
+    render() {
         return (
             <form autoComplete="off">
                 <div>
-                    <input id="username" name="username" value={this.state.username} onChange={this.handleInput}/>
+                    <input id="username" type="email" name="email" value={this.state.email} onChange={this.handleInput} />
                     <label>Username</label>
                 </div>
                 <div>
-                    <input id="password" name="password" value={this.state.password} onChange={this.handleInput}/>
+                    <input id="password" type="password" name="password" value={this.state.password} onChange={this.handleInput} />
                     <label>Password</label>
                 </div>
                 <button type="submit" onClick={
-                    e=>{
+                    e => {
                         e.preventDefault()
                         let data = this.state
                         Auth.remvoeToken()
-                        Http.post("/signin",data)
-                        .then(function(res){
-                            Auth.setToken(res.data.token);
-                            this.props.history.push("/home")
-                        }).catch(function(err){
-                            console.log(err)
-                        })
+                        Http.post("/signin", data)
+                            .then(function (res) {
+                                Auth.setToken(res.data.token);
+                                this.props.history.push("/home")
+                            }).catch(function (err) {
+                                console.log(err)
+                            })
                     }
                 }>Sign In</button>
             </form>
