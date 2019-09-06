@@ -23,7 +23,7 @@ class Signin extends Component {
             <form autoComplete="off"  className="login-form">
                 <span className="bgs">ACCOUNT LOGIN</span>
                 <div>
-                    <label className="sms">Username</label>
+                    <label className="sms">Email</label>
                     <input id="username" type="email" name="email" value={this.state.email} onChange={this.handleInput} />
                 </div>
                 <div>
@@ -34,11 +34,12 @@ class Signin extends Component {
                     e => {
                         e.preventDefault()
                         let data = this.state
+                        let props = this.props
                         Auth.remvoeToken()
                         Http.post("/signin", data)
                             .then(function (res) {
                                 Auth.setToken(res.data.token);
-                                this.props.history.push("/home")
+                                props.history.push("/")
                             }).catch(function (err) {
                                 console.log(err)
                             })

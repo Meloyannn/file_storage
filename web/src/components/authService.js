@@ -1,6 +1,6 @@
 class Auth {
     static setToken(token){
-        if(!token) throw "Token undefined"
+        if(!token) throw new Error("Token undefined")
         localStorage.setItem("Token",token)
     }
     static remvoeToken(){

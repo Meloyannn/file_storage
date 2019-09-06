@@ -20,7 +20,7 @@ module.exports = {
         }
         // User will be pushed to DB
         users.push({email, password});
-        const token = signToken(req.user);
+        const token = signToken(req.body);
         res.status(200).json({token});
     },
 

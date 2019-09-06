@@ -1,6 +1,5 @@
 import React,{Component,Fragment} from "react"
 import {Link} from "react-router-dom"
-import axios from "axios"
 import '../../css/home.css';
 const filesListrs=require('../../files');
 
@@ -25,16 +24,6 @@ const Tbody = (props) => {
 	)
   }
 class Home extends Component{
-    componentDidMount(){
-        let token = localStorage.getItem("token")
-        axios.get("/test",{headers:{
-            token:token
-        }}).then(function(res){
-            console.log(res)
-        }).catch(function(err){
-            console.log(err)
-        })
-    }
     render(){
         return (
             <table className="table"  cellSpacing="0" cellPadding="0" border="0">
