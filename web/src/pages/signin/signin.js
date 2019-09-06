@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import Http from '../../components/httpService'
 import Auth from "../../components/authService"
+import '../../css/style.css'
 class Signin extends Component {
     constructor(props) {
         super(props)
@@ -18,14 +19,16 @@ class Signin extends Component {
     }
     render() {
         return (
-            <form autoComplete="off">
+            <div className="login-page">
+            <form autoComplete="off"  className="login-form">
+                <span className="bgs">ACCOUNT LOGIN</span>
                 <div>
+                    <label className="sms">Username</label>
                     <input id="username" type="email" name="email" value={this.state.email} onChange={this.handleInput} />
-                    <label>Username</label>
                 </div>
                 <div>
+                    <label className="sms">Password</label>
                     <input id="password" type="password" name="password" value={this.state.password} onChange={this.handleInput} />
-                    <label>Password</label>
                 </div>
                 <button type="submit" onClick={
                     e => {
@@ -41,7 +44,14 @@ class Signin extends Component {
                             })
                     }
                 }>Sign In</button>
+                <button type="button" onClick={ 
+                            e=>{
+                                let path="signUp"
+                                this.props.history.push(path);
+                            }
+                }>Sign Up</button>
             </form>
+            </div>
         )
     }
 }
