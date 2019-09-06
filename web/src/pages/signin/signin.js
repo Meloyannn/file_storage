@@ -1,5 +1,6 @@
 import React,{Component} from "react"
-import axios from 'axios'
+import Http from '../../components/httpService'
+import Auth from "../../components/authService"
 class Signin extends Component{
     constructor(props){
         super(props)
@@ -30,9 +31,11 @@ class Signin extends Component{
                     e=>{
                         e.preventDefault()
                         let data = this.state
-                        axios.post("/signin",data)
+                        Auth.remvoeToken()
+                        Http.post("/signin",data)
                         .then(function(res){
-                            localStorage.setItem("token",res.data.token)
+                            Auth.setToken(res.data.token);
+                            this.props.history.push("/home")
                         }).catch(function(err){
                             console.log(err)
                         })
