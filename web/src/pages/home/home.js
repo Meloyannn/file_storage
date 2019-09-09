@@ -26,20 +26,22 @@ const Tbody = (props) => {
 class Home extends Component{
     render(){
         return (
-            <table className="table"  cellSpacing="0" cellPadding="0" border="0">
-                <thead className="tbl-header">
-                    <tr>
-                        <th>#</th>
-                        <th >Name</th>
-                        <th>Type</th>
-                        <th >Path</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody className="tbl-content">
-                    <Tbody  items={preload} />
-                </tbody>
-            </table>
+            <div>    <span></span>   
+                  <table className="table"  cellSpacing="0" cellPadding="0" border="0">
+                    <thead className="tbl-header">
+                        <tr>
+                            <th>#</th>
+                            <th >Name</th>
+                            <th>Type</th>
+                            <th >Path</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody className="tbl-content">
+                        <Tbody  items={preload} />
+                    </tbody>
+                </table>
+          </div>
             )
     }
 }

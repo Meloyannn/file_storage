@@ -37,15 +37,16 @@ class Signin extends Component {
 
     validateEmail=()=>{
         const{email}=this.state
+        let re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         this.setState({
-            emailErr:email.length>0?"":"Email can't be empty"
+            emailErr:email.length>0? re.test(email)?"":"Email is not invald":"Email can't be empty"
         })
     }
 
     validatePassword=()=>{
         const{password}=this.state
         this.setState({
-            passErr:password.length>0?"":"Password can't be empty"
+            passErr:password.length>0?password.length>=6?"":"Password length can't be less than 6":"Password can't be empty"
         })
     }
 
@@ -82,13 +83,16 @@ class Signin extends Component {
                         }
                         Auth.remvoeToken()
                         let props = this.props
-                        Http.post("/signup", sendData)
-                            .then(function (res) {
-                                Auth.setToken(res.data.token);
-                                props.history.push("/")
-                            }).catch(function (err) {
-                                console.log(err)
-                            })
+                        if(this.state.email!='' && this.state.password!='' && this.state.confPassword!='' && this.state.passErr===''  && this.state.emailErr==='' && this.state.confPassErr==='')
+                        {
+                            Http.post("/signup", sendData)
+                                .then(function (res) {
+                                    Auth.setToken(res.data.token);
+                                    props.history.push("/")
+                                }).catch(function (err) {
+                                    console.log(err)
+                                })
+                        }
                     }
                     }>Sign Up</button>
 
