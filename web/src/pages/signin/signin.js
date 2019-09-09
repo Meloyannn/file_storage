@@ -47,7 +47,7 @@ class Signin extends Component {
                 }>Sign In</button>
                 <button type="button" onClick={ 
                             e=>{
-                                let path="signup"
+                                let path="signin"
                                 this.props.history.push(path);
                             }
                 }>Sign Up</button>

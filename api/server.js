@@ -6,16 +6,20 @@ const cookieParser = require("cookie-parser")
 const { validateBody, schemas } = require("./helpers/routeHelpers");
 const app = express()
 const auth = require("./auth")
-const UsersConroller=require("./controllers/users");
+const UsersController=require("./controllers/users");
 const port = process.env.PORT
 
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
-app.post("/signup",validateBody(schemas.authschema), UsersConroller.signUp);
-app.post("/signin",validateBody(schemas.authschema), auth.authenticate('local', {session: false}),UsersConroller.signIn);
-app.use(auth.authenticate("jwt",{session:false}))
+app.post("/signup",validateBody(schemas.authschema), UsersController.signUp);
+app.post("/signin",validateBody(schemas.authschema), UsersController.signIn);
+app.use(function(req,res,next){
+    // console.log(req.headers)
+    next()
+},auth.authenticate("jwt",{session:false}))
+app.get("/getitems", UsersController.getItems)
 
 app.listen(port,function(){
     console.log(`Api listening on port ${port} `)

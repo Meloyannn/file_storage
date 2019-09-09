@@ -1,32 +1,65 @@
 const JWT = require('jsonwebtoken');
 const JWT_SECRET = process.env.SECRET_KEY
-let users = [];
+const md5 = require('md5')
+const getUserByEmail = require("../models/users").getUserByEmail
+const insertUser = require("../models/users").insertUser
+const getUserItems = require("../models/users").getUserItems
+const _ = require("underscore")
 
 signToken = user => {
     return JWT.sign({
-        iss: "Arman",
-        sub: user.email,
-        role: "user",
-        iat: new Date().getTime(), //Current date
-        exp: new Date().setDate(new Date().getDate() + 1)
-    }, JWT_SECRET);
+        id: user.user_id,
+        email: user.email,
+        role: user.role,
+    }, JWT_SECRET,{expiresIn:"2h"});
 }
-
 module.exports = {
-    signUp: (req, res, next) => {
+    signUp:  (req, res, next) => {
         const { email, password } = req.body;
-        if (users.some(users => users.email === email)) {
-            return res.status(403).json({"error": "Email is already in users."});
-        }
-        // User will be pushed to DB
-        users.push({email, password});
-        const token = signToken(req.body);
-        res.status(200).json({token});
+        getUserByEmail(email).then((result)=>{
+                if (_.isEmpty(result)){
+                    let passwordEncripted = md5(password)
+                    insertUser({email, passwordEncripted})
+                        .then( result => {
+                            const Token = signToken(result)
+                            res.status(200).json({"token":Token, "email":email})
+                        })
+                        .catch((err)=>{
+                            console.log(err)
+                            res.status(503).json({error: err})
+                        }) 
+                } else {
+                    res.status(409).json({error: "Account already exists"}) 
+                }
+            }
+        ) 
     },
 
-    signIn: async(req, res, next) => {
-        const token = signToken(req.user);
-        res.status(200).json({token});
+    signIn: (req, res) => {        
+        const { email, password } = req.body;
+        getUserByEmail(email).then((result)=>{
+            if (_.isEmpty(result)){
+                res.status(409).json({error: "Account not registered"})      
+            } else {
+                let passwordEncripted = md5(password)
+                if (passwordEncripted === result[0].password) {
+                    const Token = signToken(result[0])
+                    res.status(200).json({"token":Token, "email":email } )
+                } else {
+                    res.status(409).json({error: "Password is incorrect"})
+                }
+            }
+        }).catch(err=>{
+            console.log(err)
+            res.status(503).json({error: err})
+        })
     },
-    users:users
+
+    getItems: (req, res) => {
+        console.log(req.user.id)
+        getUserItems(req.user.id).then(result=>{
+            console.log(result)
+            res.status(200).send(result)
+        })
+    }
 }
