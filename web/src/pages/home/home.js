@@ -1,19 +1,21 @@
 import React,{Component,Fragment} from "react"
 import Http from '../../components/httpService'
-import Auth from "../../components/authService"
+import Auth from '../../components/authService'
 import {Link} from "react-router-dom"
+import FileUpload from '../../components/fileUpload'
 import '../../css/home.css';
-// const filesListrs=require('../../files');
-const filesListrs=null;
-let sendData = {
-  token:Auth.getToken()
-}
-Http.post("/getitems", sendData)
-.then(function (res) {
-    filesListrs=res.data
-}).catch(function (err) {
-    console.log(err)
-})
+const filesListrs=require('../../files');
+
+// const filesListrs=null;
+// let sendData = {
+//   token:Auth.getToken()
+// }
+// Http.post("/getitems", sendData)
+// .then(function (res) {
+//     filesListrs=res.data
+// }).catch(function (err) {
+//     console.log(err)
+// })
 
 const preload = {
 		"data" : filesListrs
@@ -39,27 +41,21 @@ class Home extends Component{
 
     constructor(props){
       super(props)
-      this.state={
-          file:null
-      }
-      this.changeHandler=this.changeHandler.bind(this)
-    }
-
-    
-    changeHandler=event=>{
-      console.log(event.target.files[0])
     }
 
     render(){
         return (
             <div> 
-                 <span><Link to={e => {
-                        e.preventDefault()                           
-                            Auth.remvoeToken()
-                            let props = this.props
-                            props.history.push("/login")
-                            
-                    }}>Logout</Link></span>   
+                  <div className="logout">
+                    <span> Username</span>
+                    <Link to="#" title="Add new file" onClick="">+</Link>
+                    <Link to="#" onClick={e => {
+                          e.preventDefault()                           
+                          Auth.remvoeToken()
+                          let props = this.props
+                          props.history.push("/login")
+                          }}>Logout</Link>
+                  </div>  
                   <table className="table"  cellSpacing="0" cellPadding="0" border="0">
                     <thead className="tbl-header">
                         <tr>
@@ -74,9 +70,8 @@ class Home extends Component{
                         <Tbody  items={preload} />
                     </tbody>
                 </table>
-                <div>
-                  <input type="file" name="file" onChange={this.changeHandler}/>
-                </div>
+                  
+                <FileUpload />
           </div>
             )
     }

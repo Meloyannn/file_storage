@@ -1,3 +1,18 @@
+.logout{
+    float: right;
+    height: 50px;
+    margin-top:50px;
+}
+.logout a,.logout span{
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 20px;
+    color: #024457;
+    margin: 50px 30px 10px;
+}
+.fileUpload{
+    display: none;
+}
 table{
     width:100%;
     table-layout: fixed;

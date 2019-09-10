@@ -1,9 +1,9 @@
 body {
-    background: #76b852; /* fallback for old browsers */
-    background: -webkit-linear-gradient(right,#CCD0D5,#DADDE1);
+    /* background: -webkit-linear-gradient(right,#CCD0D5,#DADDE1);
     background: -moz-linear-gradient(right,#CCD0D5,#DADDE1);
     background: -o-linear-gradient(right,#CCD0D5,#DADDE1);
-    background: linear-gradient(to left, #468de8, #AAC9FF);
+    background: linear-gradient(to left, #468de8, #AAC9FF); */
+    background: #AAC9FF;
     font-family: "Roboto", sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;      
