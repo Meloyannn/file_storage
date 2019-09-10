@@ -44,6 +44,7 @@ class Home extends Component{
     }
 
     render(){
+      if(Auth.getToken()){
         return (
             <div> 
                   <div className="logout">
@@ -73,7 +74,11 @@ class Home extends Component{
                   
                 <FileUpload />
           </div>
-            )
+            )}else {
+
+              this.props.history.push("/login")
+              return(null)
+            }
     }
 }
 export default Home 
